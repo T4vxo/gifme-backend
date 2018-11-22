@@ -5,27 +5,33 @@
  */
 package te.te4.gifmebackend.randomgif;
 
+import com.alibaba.fastjson.JSONObject;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import javax.ejb.Stateless;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.HttpClientBuilder;
+import te.te4.gifmebackend.utils.HttpUtils;
 
 /**
  *
  * @author ElKebabHenry
  */
+@Stateless
 public class GiphyService {
 
-    public void GipfyCon() {
-        
+    private static GiphyService instance = new GiphyService();
+// Singelton of giphy service
+    public static GiphyService getInstance() {
+        return instance;
+    }
+
+    public String getGifUrl(String searchTag) throws IOException {
+
         String apiKey = "l84tUqqgu4FKD2gCV2KKlxc4yxXqaRIM";
-        String searchTag = "toast";
-        
+
         URI uri = null;
         try {
             uri = new URIBuilder()
@@ -39,8 +45,11 @@ public class GiphyService {
             Logger.getLogger(GiphyService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        HttpClient hc = HttpClientBuilder.create().build();
-        HttpGet hg = new HttpGet(uri);
-       //hc.execute(hg).getEntity().getContent();
+        JSONObject result = HttpUtils.getResponseJson(uri.toString());
+        return result
+                .getJSONObject("data")
+                .getJSONObject("images")
+                .getJSONObject("original_still")
+                .getString("url");
     }
 }
