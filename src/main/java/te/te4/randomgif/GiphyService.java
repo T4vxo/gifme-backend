@@ -41,6 +41,6 @@ public class GiphyService {
 
         HttpClient hc = HttpClientBuilder.create().build();
         HttpGet hg = new HttpGet(uri);
-       hc.execute(hg).getEntity().getContent()
+       //hc.execute(hg).getEntity().getContent();
     }
 }
