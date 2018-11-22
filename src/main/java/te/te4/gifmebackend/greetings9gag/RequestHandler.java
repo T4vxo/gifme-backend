@@ -8,6 +8,9 @@ package te.te4.gifmebackend.greetings9gag;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import te.te4.gifmebackend.greetings9gag.models.Gag;
+import com.alibaba.fastjson.JSON;
+import te.te4.gifmebackend.utils.HttpUtils;
 
 /**
  *
@@ -15,9 +18,14 @@ import javax.ws.rs.core.Response;
  */
 @Path("")
 public class RequestHandler {
+
     @GET
     @Path("/9gag/post/random")
     public Response randomPost() {
-        return Response.ok("HELO").build();
+        Gag post = Service.getInstance().getRandomPost();
+        if (post == null) {
+            return Response.serverError().build();
+        }
+        return Response.ok(JSON.toJSONString(post)).build();
     }
 }
