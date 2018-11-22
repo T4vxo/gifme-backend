@@ -5,21 +5,25 @@
  */
 package te.te4.gifmebackend.randomgif;
 
+import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- *
+ * 
  * @author ElKebabHenry
  */
-
 @Path("/radgif")
 public class RequestHandler {
-    
-    @Path("/random/jeff")
+// id can be exchanged for any searchword
+    @Path("/jeff/{id}")
     @GET
-    public Response randomGif(){
-        return Response.ok().build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response randomGif(@PathParam("id") String id) throws IOException {
+        return Response.ok(GiphyService.getInstance().getGifUrl(id)).build();
     }
 }
