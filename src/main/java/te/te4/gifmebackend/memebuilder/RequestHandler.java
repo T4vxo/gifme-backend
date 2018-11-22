@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -21,8 +23,9 @@ import javax.ws.rs.core.Response;
 public class RequestHandler {
     @GET
     @Path("/text/random")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response randomText(@QueryParam("sek") String sek) throws IOException {
         List<String> res = GetWikiApi.GetWiki(sek);
-        return Response.ok(res).build();
+        return Response.ok(res.get(1)).build();
     }
 }
