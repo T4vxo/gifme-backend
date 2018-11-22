@@ -1,5 +1,9 @@
 te\te4\randomgif\RequestHandler.class
 te\te4\randomgif\Gif.class
+te\te4\randomgif\GiphyService.class
+te\te4\gifmebackend\greetings9gag\models\Gag.class
 org\netbeans\rest\application\config\ApplicationConfig.class
 te\te4\gifmebackend\greetings9gag\RequestHandler.class
-te\te4\randomgif\GiphyService.class
+te\te4\gifmebackend\greetings9gag\NineGagWebScraper.class
+te\te4\gifmebackend\utils\JsoupUtils.class
+te\te4\gifmebackend\greetings9gag\Service.class
