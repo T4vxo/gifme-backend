@@ -20,7 +20,7 @@ public class Gag {
     /**
      * Text fetched from API.
      */
-    public String displayedText;
+    public String[] displayedText;
     public String gagId;
     public String imageUrl; 
 
@@ -29,7 +29,7 @@ public class Gag {
         this.gagId = gagId;
         this.imageUrl = imageUrl;
     }
-
+    
     @Override
     public String toString() {
         return String.format("[id: %s, title: %s, url: %s]", gagId, title, imageUrl);

@@ -6,6 +6,7 @@
 package te.te4.gifmebackend.greetings9gag;
 
 import te.te4.gifmebackend.greetings9gag.models.Gag;
+import te.te4.gifmebackend.utils.Utils;
 
 /**
  * Staeless service for the Greetings, 9GAG! request handler.
@@ -24,9 +25,28 @@ public class Service {
 
     }
 
+    /**
+     * @return A result with a fetched displayed text.
+     */
     public Gag getRandomResult() {
         try {
-            return new NineGagWebScraper().getRandomGag();
+            Gag result = new NineGagWebScraper().getRandomGag();
+
+            String[] keywordCandidates = result.title.split(" ");
+            String keyword = null;
+
+            do {
+                keyword = result.titleKeyword = Utils.random(keywordCandidates);
+                String[] displayedText = result.displayedText = new String[]{
+                    "top text", "bottom text"
+                };
+
+                break;
+
+            } while (true);
+            
+            return result;
+
         } catch (Exception e) {
             System.err.println(e);
             return null;
