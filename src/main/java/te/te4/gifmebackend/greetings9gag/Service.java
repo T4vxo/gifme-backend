@@ -5,7 +5,6 @@
  */
 package te.te4.gifmebackend.greetings9gag;
 
-import javax.json.JsonObject;
 import te.te4.gifmebackend.greetings9gag.models.Gag;
 
 /**
@@ -25,7 +24,7 @@ public class Service {
 
     }
 
-    public Gag getRandomPost() {
+    public Gag getRandomResult() {
         try {
             return new NineGagWebScraper().getRandomGag();
         } catch (Exception e) {

@@ -10,19 +10,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import te.te4.gifmebackend.greetings9gag.models.Gag;
 import com.alibaba.fastjson.JSON;
-import te.te4.gifmebackend.utils.HttpUtils;
 
 /**
  *
  * @author Administratör
  */
-@Path("")
+@Path("/9gag")
 public class RequestHandler {
 
     @GET
-    @Path("/9gag/post/random")
+    @Path("/post/random")
     public Response randomPost() {
-        Gag post = Service.getInstance().getRandomPost();
+        Gag post = Service.getInstance().getRandomResult();
         if (post == null) {
             return Response.serverError().build();
         }
