@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * 
+ *
  * @author ElKebabHenry
  */
 @Path("/radgif")
@@ -33,8 +33,16 @@ public class RequestHandler {
     @Produces(MediaType.APPLICATION_JSON)
     public Response randomGif(@PathParam("id") String id) throws IOException {
         JSONObject obj = new JSONObject();
-        obj.put("result", "ok");
-        obj.put("url", GiphyService.getInstance().getGifUrl(id));
-        return Response.ok(obj.toJSONString()).build();
+        System.out.println("allways");
+        try {
+            System.out.println("try");
+            obj.put("result", "ok");
+            obj.put("url", GiphyService.getInstance().getGifUrl(id));
+            return Response.ok(obj.toJSONString()).build();
+        } catch (Exception e) {
+            System.out.println("catch");
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+
     }
 }
