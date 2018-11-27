@@ -30,6 +30,7 @@ public abstract class HttpUtils {
     }
     
     public static String getResponseEntity(String url) throws IOException {
+        System.out.println("Requesting: " + url);
         HttpResponse res = getResponse(url);
         HttpEntity entity = res.getEntity();
         

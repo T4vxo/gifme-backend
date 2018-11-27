@@ -5,6 +5,7 @@
  */
 package te.te4.gifmebackend.randomgif;
 
+import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,10 +21,20 @@ import javax.ws.rs.core.Response;
 @Path("/radgif")
 public class RequestHandler {
 // id can be exchanged for any searchword
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws IOException
+     */
     @Path("/jeff/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response randomGif(@PathParam("id") String id) throws IOException {
-        return Response.ok(GiphyService.getInstance().getGifUrl(id)).build();
+        JSONObject obj = new JSONObject();
+        obj.put("result", "ok");
+        obj.put("url", GiphyService.getInstance().getGifUrl(id));
+        return Response.ok(obj.toJSONString()).build();
     }
 }
