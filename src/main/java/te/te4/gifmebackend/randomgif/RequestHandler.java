@@ -24,20 +24,20 @@ public class RequestHandler {
 
     /**
      *
-     * @param id
+     * @param query
      * @return
      * @throws IOException
      */
-    @Path("/jeff/{id}")
+    @Path("/gif/{query}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response randomGif(@PathParam("id") String id) throws IOException {
+    public Response randomGif(@PathParam("query") String query) throws IOException {
         JSONObject obj = new JSONObject();
         System.out.println("allways");
         try {
             System.out.println("try");
             obj.put("result", "ok");
-            obj.put("url", GiphyService.getInstance().getGifUrl(id));
+            obj.put("url", GiphyService.getInstance().getGifUrl(query));
             return Response.ok(obj.toJSONString()).build();
         } catch (Exception e) {
             System.out.println("catch");

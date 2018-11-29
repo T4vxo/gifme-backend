@@ -5,7 +5,9 @@
  */
 package te.te4.gifmebackend.greetings9gag;
 
+import java.util.List;
 import te.te4.gifmebackend.greetings9gag.models.Gag;
+import te.te4.gifmebackend.memebuilder.GetWikiApi;
 import te.te4.gifmebackend.utils.Utils;
 
 /**
@@ -37,14 +39,15 @@ public class Service {
 
             do {
                 keyword = result.titleKeyword = Utils.random(keywordCandidates);
-                String[] displayedText = result.displayedText = new String[]{
-                    "top text", "bottom text"
-                };
+                List<String> displayedTextList = GetWikiApi.GetWiki(keyword);
+                String[] displayedText = result.displayedText = displayedTextList.toArray(
+                        new String[displayedTextList.size()]
+                );
 
                 break;
 
             } while (true);
-            
+
             return result;
 
         } catch (Exception e) {
