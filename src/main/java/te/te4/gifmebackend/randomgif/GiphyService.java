@@ -46,10 +46,6 @@ public class GiphyService {
         }
 
         JSONObject result = HttpUtils.getResponseJson(uri.toString());
-        return result
-                .getJSONObject("data")
-                .getJSONObject("images")
-                .getJSONObject("original_still")
-                .getString("url");
+        return "https://i.giphy.com/media/" + result.getJSONObject("data").getString("id") + "/200w.webp";
     }
 }
