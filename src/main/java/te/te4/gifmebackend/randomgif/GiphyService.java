@@ -46,6 +46,7 @@ public class GiphyService {
         }
 
         JSONObject result = HttpUtils.getResponseJson(uri.toString());
+        //stopar in gifens id i länken returnar den
         return "https://i.giphy.com/media/" + result.getJSONObject("data").getString("id") + "/200w.webp";
     }
 }
