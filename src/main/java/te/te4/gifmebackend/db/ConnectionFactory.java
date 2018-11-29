@@ -6,6 +6,7 @@
 package te.te4.gifmebackend.db;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 /**
  *
@@ -16,6 +17,9 @@ public class ConnectionFactory {
      * Initializes a new connection using default connection args.
      */
     public static Connection createConnection() {
+        String host = "jdbc:mysql://localhost/";
+        String db = null;
+        //DriverManager.getConnection(, string1, string2)
         return null;
     }
 }
