@@ -6,6 +6,8 @@
 package te.te4.gifmebackend.greetings9gag;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import te.te4.gifmebackend.greetings9gag.models.Gag;
 import te.te4.gifmebackend.memebuilder.GetWikiApi;
 import te.te4.gifmebackend.utils.Utils;
@@ -18,6 +20,7 @@ import te.te4.gifmebackend.utils.Utils;
 public class Service {
 
     private static Service instance = new Service();
+    private static Logger logger = LoggerFactory.getLogger(Service.class);
 
     public static Service getInstance() {
         return instance;
@@ -51,7 +54,7 @@ public class Service {
             return result;
 
         } catch (Exception e) {
-            System.err.println(e);
+            logger.error("Error obtaining gag", e);
             return null;
         }
     }
