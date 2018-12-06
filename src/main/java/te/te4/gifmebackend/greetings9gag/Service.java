@@ -42,7 +42,7 @@ public class Service {
 
             do {
                 keyword = result.titleKeyword = Utils.random(keywordCandidates);
-                List<String> displayedTextList = GetWikiApi.GetWiki(keyword);
+                List<String> displayedTextList = GetWikiApi.getWiki(keyword);
                 String[] displayedText = result.displayedText = displayedTextList.toArray(
                         new String[displayedTextList.size()]
                 );

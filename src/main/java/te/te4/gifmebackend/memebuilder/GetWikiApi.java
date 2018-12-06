@@ -17,7 +17,7 @@ import te.te4.gifmebackend.utils.HttpUtils;
  * @author Administratör
  */
 public class GetWikiApi {
-    public static List<String> GetWiki(String sek) throws IOException{
+    public static List<String> getWiki(String sek) throws IOException{
         Random ran = new Random(); 
         //hämtar api
         JSONObject res = HttpUtils.getResponseJson("https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + sek);
