@@ -24,7 +24,7 @@ public class GetWikiApi {
         //stopar in de två första resultaten i en lista
         List<String> result = new ArrayList<>();
         result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(ran.nextInt(5)).getString("title"));
-        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(ran.nextInt(5) + 4).getString("title"));
+        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(ran.nextInt(5) + 5).getString("title"));
         return result;
     }
 }
