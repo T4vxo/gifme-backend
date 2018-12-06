@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import te.te4.gifmebackend.utils.HttpUtils;
 
 /**
@@ -17,12 +18,13 @@ import te.te4.gifmebackend.utils.HttpUtils;
  */
 public class GetWikiApi {
     public static List<String> GetWiki(String sek) throws IOException{
+        Random ran = new Random(); 
         //hämtar api
         JSONObject res = HttpUtils.getResponseJson("https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + sek);
         //stopar in de två första resultaten i en lista
         List<String> result = new ArrayList<>();
-        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(0).getString("title"));
-        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(1).getString("title"));
+        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(ran.nextInt(6)).getString("title"));
+        result.add(res.getJSONObject("query").getJSONArray("search").getJSONObject(ran.nextInt(6) + 5).getString("title"));
         return result;
     }
 }
