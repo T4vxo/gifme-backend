@@ -26,8 +26,8 @@ public class AuthFilter implements ContainerRequestFilter {
     /**
      * URIs which do not require authorization.
      */
-    private static String[] WHITE_LISTED_URIS = new String[]{
-        
+    private static String[] WHITELISTED_URIS = new String[]{
+        "/randgif/gif"
     };
 
     @Override
@@ -70,6 +70,26 @@ public class AuthFilter implements ContainerRequestFilter {
     }
 
     private boolean requiresAuth(String uri) {
-        return true;
+        System.out.println("URI: " + uri);
+        String basePath = "/api";
+        String uriWithoutBasePath;
+        
+        if (uri.toLowerCase().startsWith(basePath)) {
+            uriWithoutBasePath = uri.substring(basePath.length());
+        } else {
+            uriWithoutBasePath = uri;
+        }
+        
+        if (!uriWithoutBasePath.startsWith("/")) {
+            uriWithoutBasePath = "/" + uriWithoutBasePath;
+        }
+        
+        for (String whitelistedUri : WHITELISTED_URIS) {
+            if (whitelistedUri.equalsIgnoreCase(uriWithoutBasePath)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
