@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
  *
  * @author ElKebabHenry
  */
-@Path("/radgif")
+@Path("/randgif")
 public class RequestHandler {
 // id can be exchanged for any searchword
 
