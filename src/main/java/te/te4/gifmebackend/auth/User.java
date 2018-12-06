@@ -154,13 +154,22 @@ public class User {
         return accessToken;
     }
 
-    private String accessToken;
+    private int id;
+    private String authToken;
 
-    public String getAccessToken() {
-        return accessToken;
+    public int getId() {
+        return id;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

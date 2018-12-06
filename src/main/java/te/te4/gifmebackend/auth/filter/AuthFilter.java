@@ -28,6 +28,7 @@ public class AuthFilter implements ContainerRequestFilter {
      */
     private static String[] WHITELISTED_URIS = new String[]{
         //  KEEP ALL THESE LOWERCASE
+        "/auth",
         "/randgif/gif"
     };
 

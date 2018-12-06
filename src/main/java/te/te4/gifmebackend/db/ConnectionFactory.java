@@ -12,19 +12,28 @@ import te.te4.gifmebackend.auth.SuperSecret;
 
 /**
  * Establishes connection instances to the default database.
+ *
  * @author johan
  */
 public class ConnectionFactory {
+
     private static String CONFIG_HOST = "192.168.0.4";
-    
+
     /**
      * Initializes a new connection using default connection args.
+     *
      * @return An established connection to the database.
      */
     public static Connection createConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         String host = String.format("jdbc:mysql://%s", CONFIG_HOST);
         String db = "gifme";
-        
+
         SuperSecret secret = SuperSecret.getInstance();
         String user = secret.getCredential("db_user");
         String password = secret.getCredential("db_password");

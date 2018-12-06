@@ -5,10 +5,15 @@
  */
 package te.te4.gifmebackend.auth;
 
+import com.alibaba.fastjson.JSONObject;
+import java.sql.SQLException;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles authorization specific requests.
@@ -16,10 +21,22 @@ import javax.ws.rs.core.Response;
  */
 @Path("")
 public class RequestHandler {
+    private static Logger logger = LoggerFactory.getLogger(RequestHandler.class);
+            
     @GET
-    @Path("/auth")
+    @Path("/auth/github")
     public Response authWithGithub(@QueryParam("client_code") String code) {
-        Service.getInstance().authWithCodeAndSignUpFallback(code);
-        return Response.ok("Check console").build();
+        try {
+            User user = Service.getInstance().authWithCodeAndSignUpFallback(code);
+            JSONObject resultObj = new JSONObject();
+            resultObj.put("token", user.getAuthToken());
+            return Response.ok(resultObj.toJSONString()).build();
+        } catch (SQLException sqlEx) {
+            logger.error("GitHub auth SQL error", sqlEx);
+            return Response.serverError().build();
+        } catch (IllegalArgumentException illegalArgEx) {
+            logger.warn("GitHub auth error", illegalArgEx);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
     }
 }
