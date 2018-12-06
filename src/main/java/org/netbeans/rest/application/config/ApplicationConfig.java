@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(te.te4.gifmebackend.auth.RequestHandler.class);
+        resources.add(te.te4.gifmebackend.auth.filter.AuthFilter.class);
         resources.add(te.te4.gifmebackend.greetings9gag.RequestHandler.class);
         resources.add(te.te4.gifmebackend.memebuilder.RequestHandler.class);
         resources.add(te.te4.gifmebackend.randomgif.RequestHandler.class);

@@ -23,6 +23,8 @@ public class SuperSecret {
         credentials = new HashMap<>();
         credentials.put("client_id", "f9eb926c89f1a44655a3");
         credentials.put("client_secret", "65b7e4dc91baa311e5e535ace947cf5fed2ef4bb");
+        credentials.put("db_user", "gifme_bob");
+        credentials.put("db_password", "wq2O4T2Ql8TyVVKE");
     }
     
     public String getCredential(String key) {
