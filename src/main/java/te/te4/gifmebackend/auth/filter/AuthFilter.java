@@ -30,6 +30,7 @@ public class AuthFilter implements ContainerRequestFilter {
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             }
         } catch (Exception ex) {
+            System.err.println(ex.getMessage());
             requestContext.abortWith(Response.serverError().build());
         }
     }

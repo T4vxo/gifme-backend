@@ -15,11 +15,16 @@ import te.te4.gifmebackend.utils.PasswordAuthentication;
 
 /**
  * Represents a single user.
+ *
  * @author johan
  */
 public class User {
+
+    public static int ACCESS_TOKEN_LENGTH = 32;
+
     /**
      * Uses some credentials to fetch a user's ID.
+     *
      * @param authHeader Value from the Authorization header.
      * @throws Exception if the credentials are invalid.
      * @return The resolved user ID from the auth credentials.
@@ -46,13 +51,13 @@ public class User {
                 );
                 statement.setString(1, token);
                 ResultSet result = statement.executeQuery();
-                
+
                 if (result.next()) {
                     return result.getInt("id");
                 } else {
                     throw new SecurityException("Invalid token credentials");
                 }
-                
+
             } catch (SQLException ex) {
                 throw ex;
             }
@@ -61,23 +66,23 @@ public class User {
             String[] credentials = new String(
                     Base64.getDecoder().decode(fields[1])
             ).split(":");
-            
+
             if (credentials.length < 2) {
                 throw new SecurityException("Basic auth misses password");
             }
-            
+
             String username = credentials[0], password = credentials[1];
 
             try (Connection connection = ConnectionFactory.createConnection()) {
                 PreparedStatement statement = connection.prepareStatement(
-                        "SELECT id, password FROM users WHERE username=?"
+                        "SELECT id, auth_secret FROM users WHERE username=?"
                 );
                 statement.setString(1, username);
                 ResultSet result = statement.executeQuery();
-                
+
                 if (result.next()) {
-                    String hashedPassword = result.getString("password");
-                    
+                    String hashedPassword = result.getString("auth_secret");
+
                     try {
                         if (!PasswordAuthentication.getInstance().authenticate(
                                 password.toCharArray(), hashedPassword)) {
@@ -87,13 +92,13 @@ public class User {
                     } catch (Exception ex) {
                         throw new IllegalStateException(ex.getMessage());
                     }
-                    
+
                     //  Authorized
                     return result.getInt("id");
                 } else {
                     throw new SecurityException("Invalid basic credentials");
                 }
-                
+
             } catch (SQLException ex) {
                 throw ex;
             }
@@ -101,8 +106,55 @@ public class User {
             throw new SecurityException("Unknown authorization type: " + fields[0]);
         }
     }
-    
-   private String accessToken;
+
+    /**
+     * @return An unique access token string with 32 in length
+     */
+    public static String generateAccessToken() throws SQLException {
+        char[] allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder builder = new StringBuilder();
+
+        Connection connection = ConnectionFactory.createConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT 'exists' FROM users WHERE auth_token=?"
+        );
+
+        while (true) {
+            for (int i = 0, n = ACCESS_TOKEN_LENGTH; i < n; i++) {
+                builder.append(
+                        allowedChars[(int) Math.floor(allowedChars.length * Math.random())]
+                );
+            }
+            statement.setString(1, builder.toString());
+            
+            ResultSet result = statement.executeQuery();
+            if (!result.next()) {
+                //  Is unique
+                break;
+            }
+            
+            builder.setLength(0);
+        }
+
+        return builder.toString();
+    }
+
+    public static String generateAndSaveAccessToken(int userId) throws SQLException {
+        String accessToken = generateAccessToken();
+
+        Connection connection = ConnectionFactory.createConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "UPDATE users SET auth_token=? WHERE id=?"
+        );
+
+        statement.setString(1, accessToken);
+        statement.setInt(2, userId);
+        statement.executeUpdate();
+
+        return accessToken;
+    }
+
+    private String accessToken;
 
     public String getAccessToken() {
         return accessToken;
