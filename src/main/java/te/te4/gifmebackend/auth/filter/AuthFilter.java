@@ -23,10 +23,23 @@ import te.te4.gifmebackend.db.ConnectionFactory;
 @Provider
 public class AuthFilter implements ContainerRequestFilter {
 
+    /**
+     * URIs which do not require authorization.
+     */
+    private static String[] WHITE_LISTED_URIS = new String[]{
+        
+    };
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        if (!requiresAuth(requestContext.getUriInfo().getPath())) {
+            return;
+        }
+
         try {
-            if (!authenticateAuthHeader(requestContext.getHeaderString("Authorization"))) {
+            String authHeader = requestContext.getHeaderString("Authorization");
+            
+            if (authHeader == null || !authenticateAuthHeader(authHeader)) {
                 requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
             }
         } catch (Exception ex) {
@@ -52,7 +65,11 @@ public class AuthFilter implements ContainerRequestFilter {
         } catch (IllegalStateException illegalStateEx) {
             throw illegalStateEx;
         }
-        
+
         return false;
+    }
+
+    private boolean requiresAuth(String uri) {
+        return true;
     }
 }
