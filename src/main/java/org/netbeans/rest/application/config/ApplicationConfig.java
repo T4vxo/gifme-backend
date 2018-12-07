@@ -35,6 +35,7 @@ public class ApplicationConfig extends Application {
         resources.add(te.te4.gifmebackend.greetings9gag.RequestHandler.class);
         resources.add(te.te4.gifmebackend.memebuilder.RequestHandler.class);
         resources.add(te.te4.gifmebackend.randomgif.RequestHandler.class);
+        resources.add(te.te4.gifmebackend.test.RequestHandler.class);
         resources.add(te.te4.gifmebackend.utils.CORSFilter.class);
     }
     

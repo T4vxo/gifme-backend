@@ -6,7 +6,6 @@
 package te.te4.gifmebackend.auth;
 
 import com.alibaba.fastjson.JSONObject;
-import java.sql.SQLException;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -17,12 +16,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Handles authorization specific requests.
+ *
  * @author johan
  */
 @Path("")
 public class RequestHandler {
+
     private static Logger logger = LoggerFactory.getLogger(RequestHandler.class);
-            
+
     @GET
     @Path("/auth/github")
     public Response authWithGithub(@QueryParam("client_code") String code) {
@@ -31,12 +32,30 @@ public class RequestHandler {
             JSONObject resultObj = new JSONObject();
             resultObj.put("token", user.getAuthToken());
             return Response.ok(resultObj.toJSONString()).build();
-        } catch (SQLException sqlEx) {
-            logger.error("GitHub auth SQL error", sqlEx);
-            return Response.serverError().build();
         } catch (IllegalArgumentException illegalArgEx) {
             logger.warn("GitHub auth error", illegalArgEx);
             return Response.status(Response.Status.UNAUTHORIZED).build();
+        } catch (Exception ex) {
+            logger.error("GitHub auth generic error", ex);
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
+    @Path("/auth")
+    public Response authWithBasic(@HeaderParam("Authorization") String auth) {
+        try {
+            User user = Service.getInstance().authWithBasicAuthHeader(auth);
+            if (user == null) {
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+            }
+
+            JSONObject resultObj = new JSONObject();
+            resultObj.put("token", user.getAuthToken());
+            return Response.ok(resultObj.toJSONString()).build();
+        } catch (Exception ex) {
+            logger.error("Basic auth generic error", ex);
+            return Response.serverError().build();
         }
     }
 }

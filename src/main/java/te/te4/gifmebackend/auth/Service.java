@@ -57,6 +57,8 @@ public class Service {
             return null;
         } catch (IllegalArgumentException illegalArgsEx) {
             throw illegalArgsEx;
+        } catch (SQLException sqlEx) {
+            throw sqlEx;
         }
     }
 
@@ -95,6 +97,31 @@ public class Service {
             return user;
         } catch (IOException e) {
             return null;
+        }
+    }
+
+    /**
+     * @param header
+     * @return The authorized user or null if no user matching the credentials
+     * found.
+     */
+    public User authWithBasicAuthHeader(String header) throws SQLException, IllegalStateException {
+        try {
+            int userId = User.getUserIdFromAuth(header);
+            
+            //  Successful, generate token
+            User user = new User();
+            user.setId(userId);
+            
+            String authToken = User.generateAndSaveAccessToken(userId);
+            user.setAuthToken(authToken);
+            
+            return user;
+            
+        } catch (SecurityException secEx) {
+            return null;
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
