@@ -27,7 +27,11 @@ public class GiphyService {
     public static GiphyService getInstance() {
         return instance;
     }
-
+/**
+ * @param searchTag
+ * @return url of the desired query/searchword
+ * @throws IOException 
+ */
     public String getGifUrl(String searchTag) throws IOException {
 
         String apiKey = "l84tUqqgu4FKD2gCV2KKlxc4yxXqaRIM";

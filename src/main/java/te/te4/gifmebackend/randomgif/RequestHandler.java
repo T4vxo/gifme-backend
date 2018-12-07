@@ -25,7 +25,7 @@ public class RequestHandler {
     /**
      *
      * @param query
-     * @return
+     * @return url of gif in json format
      * @throws IOException
      */
     @Path("/gif/{query}")
