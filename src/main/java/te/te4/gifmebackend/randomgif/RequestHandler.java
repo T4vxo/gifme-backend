@@ -23,7 +23,7 @@ public class RequestHandler {
 // id can be exchanged for any searchword
 
     /**
-     *
+     * Uses the giphy api to get a random gif using a search query
      * @param query
      * @return url of gif in json format
      * @throws IOException

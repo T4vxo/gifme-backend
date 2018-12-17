@@ -24,14 +24,16 @@ public class GiphyService {
 
     private static GiphyService instance = new GiphyService();
 // Singelton of giphy service
+
     public static GiphyService getInstance() {
         return instance;
     }
-/**
- * @param searchTag
- * @return url of the desired query/searchword
- * @throws IOException 
- */
+
+    /**
+     * @param searchTag
+     * @return url of the desired query/searchword
+     * @throws IOException
+     */
     public String getGifUrl(String searchTag) throws IOException {
 
         String apiKey = "l84tUqqgu4FKD2gCV2KKlxc4yxXqaRIM";
@@ -45,15 +47,17 @@ public class GiphyService {
                     .setParameter("api_key", apiKey)
                     .setParameter("tag", searchTag)
                     .build();
+            JSONObject result = HttpUtils.getResponseJson(uri.toString());
+            return result
+                    .getJSONObject("data")
+                    .getJSONObject("images")
+                    .getJSONObject("original")
+                    .getString("url");
         } catch (URISyntaxException ex) {
             Logger.getLogger(GiphyService.class.getName()).log(Level.SEVERE, null, ex);
+
+            return null;
         }
 
-        JSONObject result = HttpUtils.getResponseJson(uri.toString());
-                return result
-                .getJSONObject("data")
-                .getJSONObject("images")
-                .getJSONObject("original")
-                .getString("url");
     }
 }
