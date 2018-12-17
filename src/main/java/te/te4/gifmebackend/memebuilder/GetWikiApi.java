@@ -12,10 +12,7 @@ import java.util.List;
 import java.util.Random;
 import te.te4.gifmebackend.utils.HttpUtils;
 
-/**
- *
- * @author Administratör
- */
+
 public class GetWikiApi {
     public static List<String> getWiki(String sek) throws IOException{
         Random ran = new Random(); 
