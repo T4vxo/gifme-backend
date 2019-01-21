@@ -25,7 +25,6 @@ public class RequestHandler {
     public Response randomText(@QueryParam("seek") String seek) throws IOException {
         List<String> res = GetWikiApi.getWiki(seek);    
         MemeText text = new MemeText(res.get(0), res.get(1));
-        System.out.println(JSON.toJSONString(text));
         //return fotter och header
         return Response.ok(JSON.toJSONString(text)).build();
     }
